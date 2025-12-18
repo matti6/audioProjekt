@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="467eafe1-ff70-4b85-b592-242f9b174e7d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/audioCourseProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="467eafe1-ff70-4b85-b592-242f9b174e7d" name="Changes" comment="moro">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/audioProjekt/car_tram_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/audioProjekt/car_tram_classifier.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,12 +21,12 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../audioProjekt" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/audioProjekt" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="36xsa86zaQuoFTWdrLtbXTnC3iN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -41,9 +37,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.car_tram_classifier (1).executor": "Run",
     "Python.car_tram_classifier.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "<unknown>",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/matia/PycharmProjects/audioCourseProject"
   }
 }]]></component>
@@ -59,7 +56,29 @@
       <recent name="C:\Users\matia\PycharmProjects\audioCourseProject\tram_test" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.car_tram_classifier (1)">
+    <configuration name="car_tram_classifier (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="audioProjekt" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/audioProjekt" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/audioProjekt/car_tram_classifier.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="car_tram_classifier" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="audioCourseProject" />
       <option name="ENV_FILES" value="" />
@@ -84,6 +103,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.car_tram_classifier (1)" />
         <item itemvalue="Python.car_tram_classifier" />
       </list>
     </recent_temporary>
@@ -104,6 +124,36 @@
       <option name="presentableId" value="Default" />
       <updated>1765959617849</updated>
     </task>
+    <task id="LOCAL−00001" summary="moro">
+      <option name="closed" value="true" />
+      <created>1765993353078</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1765993353078</updated>
+    </task>
+    <task id="LOCAL−00002" summary="moro">
+      <option name="closed" value="true" />
+      <created>1765993395623</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1765993395623</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="moro" />
+    <option name="LAST_COMMIT_MESSAGE" value="moro" />
   </component>
 </project>

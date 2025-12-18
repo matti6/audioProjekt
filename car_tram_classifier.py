@@ -3,7 +3,7 @@ import soundfile as sf
 import librosa
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
 import os
 import matplotlib.pyplot as plt
 
@@ -181,6 +181,28 @@ def score(y_test, y_pred):
 
     return accuracy, tram_precision, car_precision, tram_recall, car_recall
 
+def final_test(x_train, y_train, x_test, y_test):
+    y_pred = classify(x_train, y_train, x_test, 7)
+
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Final Accuracy: {accuracy:.4f}")
+
+    # 2️⃣ Classification report (precision, recall, f1-score per class)
+    print("\nClassification Report:\n")
+    print(classification_report(y_test, y_pred, digits=4))
+
+    # 3️⃣ Confusion matrix
+    cm = confusion_matrix(y_test, y_pred, labels=["tram", "car"])
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["tram", "car"])
+
+    # 4️⃣ Plot nicely
+    fig, ax = plt.subplots(figsize=(6, 6))
+    disp.plot(cmap=plt.cm.Blues, ax=ax, colorbar=True)
+    plt.title("Confusion Matrix - Tram vs Car")
+    plt.savefig("results/confusion_matrix.png")
+    plt.show()
+
+
 def main():
     # Define the paths to the audio files and
     # the labels for them
@@ -197,12 +219,14 @@ def main():
     # Process the information
     x_train, y_train = process_data(tram_train_path, car_train_path, tram_label, car_label)
     x_validation, y_validation = process_data(tram_validation_path, car_validation_path, tram_label, car_label)
+    x_test, y_test = process_data(tram_test_path, car_test_path, tram_label, car_label)
 
-    test_k(x_train, x_validation, y_train, y_validation)
+    #test_k(x_train, x_validation, y_train, y_validation)
 
     x_train = np.r_[x_train, x_validation]
     y_train = np.r_[y_train, y_validation]
-    y_pred = classify(x_train, y_train, x_train, 7)
+
+    final_test(x_train, y_train, x_test, y_test)
 
 if __name__ == "__main__":
     main()

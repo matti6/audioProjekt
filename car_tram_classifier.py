@@ -3,7 +3,7 @@ import soundfile as sf
 import librosa
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.metrics import accuracy_score, precision_score, recall_score, classification_report, confusion_matrix
 import os
 import matplotlib.pyplot as plt
 
@@ -39,33 +39,31 @@ def feature_extraction(path):
     information is included in the array that is used
     in the classification
     """
-    # Load the audio
+    # Load audio
     audio, _ = librosa.load(path, sr=SR, mono=True)
 
-    # Make the audio 4 seconds long so every
-    # sample is the same length
+    # Pad or truncate
     if len(audio) < TARGET_LEN:
-        # If the sample is less than 4s,  pad it with 0s
         audio = np.pad(audio, (0, TARGET_LEN - len(audio)))
     else:
-        # Otherwise clip it from the beginning
         audio = audio[:TARGET_LEN]
 
-    # Normalize the audio to 0-1
-    audio = audio / np.max(audio)
+    # Normalize safely
+    if np.max(np.abs(audio)) > 0:
+        audio = audio / np.max(audio)
 
-    # Take the short time fourier transform
+    # STFT magnitude (log scale)
     stft = librosa.stft(y=audio)
-    # The result can be complex, lets take the absolute value
-    # and make the matrix into a vector
-    stft = np.abs(stft).flatten()
+    stft_features = np.abs(stft).flatten()
 
+    # MFCC mean & std
     mfcc = librosa.feature.mfcc(y=audio, sr=SR, n_mfcc=40)
-    mfcc = mfcc.flatten()
+    mfcc_features = mfcc.flatten()
 
-    final = np.r_[stft, mfcc]
+    # Combine features
+    final_features = np.r_[stft_features, mfcc_features]
 
-    return final
+    return final_features
 
 def process_data(path1, path2, label1, label2):
     """
@@ -117,24 +115,71 @@ def classify(x_train, y_train, x_test, n_neighbors):
 
 def test_k(x_train, x_valid, y_train, y_valid):
 
-    ks = range(1, 20, 2)
+    k_values = range(1, 25, 2)
     accuracys = list()
+    tram_precisions = list()
+    car_precisions = list()
+    tram_recalls = list()
+    car_recalls = list()
 
-    for k in ks:
+    for k in k_values:
         print(f"k = {k}:")
         y_pred = classify(x_train, y_train, x_valid, k)
-        accuracy = accuracy_score(y_valid, y_pred)
+        accuracy, tram_precision, car_precision, tram_recall, car_recall = score(y_valid, y_pred)
         accuracys.append(accuracy)
         print(f"Accuracy = {accuracy}:")
+        tram_precisions.append(tram_precision)
+        print(f"Tram precision = {tram_precision}:")
+        car_precisions.append(car_precision)
+        print(f"Car precision = {car_precision}:")
+        tram_recalls.append(tram_recall)
+        print(f"Tram recall = {tram_recall}:")
+        car_recalls.append(car_recall)
+        print(f"Car recall = {car_recall}:")
 
     plt.figure(figsize=(8, 5))
-    plt.plot(ks, accuracys, marker='o')
+    plt.plot(k_values, accuracys, marker='o')
     plt.title('K vs Validation Accuracy')
     plt.xlabel('Number of Neighbors (k)')
     plt.ylabel('Validation Accuracy')
-    plt.xticks(ks)
+    plt.xticks(k_values)
     plt.grid(True)
+    plt.savefig("results/k_accuracy.png")
     plt.show()
+
+    fig, axs = plt.subplots(2, 1, sharex=True)
+
+    # --- Precision plot ---
+    axs[0].plot(k_values, tram_precisions, marker='o', label='Tram Precision')
+    axs[0].plot(k_values, car_precisions, marker='s', label='Car Precision')
+    axs[0].set_ylabel('Precision')
+    axs[0].set_title('Precision vs k')
+    axs[0].legend()
+    axs[0].grid(True)
+
+    # --- Recall plot ---
+    axs[1].plot(k_values, tram_recalls, marker='o', label='Tram Recall')
+    axs[1].plot(k_values, car_recalls, marker='s', label='Car Recall')
+    axs[1].set_xlabel('k')
+    axs[1].set_ylabel('Recall')
+    axs[1].set_title('Recall vs k')
+    axs[1].legend()
+    axs[1].grid(True)
+
+    plt.xticks(k_values)
+    plt.tight_layout()
+    plt.savefig("results/precision_recall_k.png")
+    plt.show()
+
+
+def score(y_test, y_pred):
+    accuracy = accuracy_score(y_test, y_pred)
+    tram_precision = precision_score(y_test, y_pred, pos_label="tram")
+    car_precision = precision_score(y_test, y_pred, pos_label="car")
+    tram_recall = recall_score(y_test, y_pred, pos_label="tram")
+    car_recall = recall_score(y_test, y_pred, pos_label="car")
+
+    return accuracy, tram_precision, car_precision, tram_recall, car_recall
 
 def main():
     # Define the paths to the audio files and
@@ -155,6 +200,9 @@ def main():
 
     test_k(x_train, x_validation, y_train, y_validation)
 
+    x_train = np.r_[x_train, x_validation]
+    y_train = np.r_[y_train, y_validation]
+    y_pred = classify(x_train, y_train, x_train, 7)
 
 if __name__ == "__main__":
     main()
